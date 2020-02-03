@@ -639,7 +639,7 @@ MonoBehaviour:
   rb: {fileID: 753268964}
   moveScript: {fileID: 753268970}
   canDash: 0
-  dashDuration: 0.4
+  dashDuration: 0.2
   dashSpeed: 15
   dashCooldown: 4
 --- !u!1 &981818765

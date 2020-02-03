@@ -7,6 +7,7 @@ public class PlayerAttack : MonoBehaviour
     public Transform attackPoint;
     public PlayerMovement moveScript;
     public Animator animator;
+    public PlayerDash dashScript;//so canDash is turned off
     public float attackTime;
     private float attackTimeReset;
     public bool attacking;
@@ -26,7 +27,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if(Input.GetButtonDown("Fire1") && canAttack){
             animator.SetTrigger("Attacking");
-            //moveScript.canMove = false;//stops movement while attacking
+            dashScript.canDash = false;
             canAttack = false;//stops player from attacking infinitely
         }
         //reset canMove by checking the state of the animation
@@ -34,6 +35,7 @@ public class PlayerAttack : MonoBehaviour
             inAttackState = true;
         }else if(inAttackState){
             inAttackState = false;
+            
             //moveScript.canMove = true;
         }
         //stopping the player from attacking infinitely
@@ -42,6 +44,7 @@ public class PlayerAttack : MonoBehaviour
         }
         if(attackTime <= 0){
             canAttack = true;
+            dashScript.canDash = true;
             attackTime = attackTimeReset;   
         }
         
