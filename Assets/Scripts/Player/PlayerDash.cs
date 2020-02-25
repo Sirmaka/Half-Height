@@ -12,16 +12,18 @@ public class PlayerDash : MonoBehaviour
     public float dashDuration;
     private float dashDurationReset;
     public float dashSpeed;
-    private bool isDashing;
+    public bool isDashing;
     public float dashCooldown;
     private float dashCooldownReset;
     private Vector2 dirFacing;
+    private bool once = true;
 
     // Start is called before the first frame update
     void Start()
     {
         //canDash = true;
         dashDurationReset = dashDuration;
+        dashCooldownReset = dashCooldown;
     }
 
     // Update is called once per frame
@@ -43,18 +45,19 @@ public class PlayerDash : MonoBehaviour
         }
         if(dashDuration <= 0){
             isDashing = false;
-            attackScript.canAttack = true;//allow attacking again   
+            if(once)
+                attackScript.canAttack = true;//allow attacking again
+            once = false;   
             rb.gravityScale = 1f;//turns on gravity
             animator.SetBool("Dashing", false);
-            dashDuration = dashDurationReset;
             moveScript.canMove = true;
-        }
-        if(!canDash){
-            dashCooldown -= 1;
+            dashCooldown -= Time.deltaTime;
         }
         if(dashCooldown < 0){
             canDash = true;
             dashCooldown = dashCooldownReset;
+            dashDuration = dashDurationReset;
+            once = true; //to make sure canAttack = true only happens once
         }
     }
 }

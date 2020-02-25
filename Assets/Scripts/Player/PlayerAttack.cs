@@ -12,6 +12,7 @@ public class PlayerAttack : MonoBehaviour
     private float attackTimeReset;
     public bool attacking;
     public bool canAttack;
+    public bool attackCooldown;//whether or not the attack is cooling down
     private bool inAttackState;
     public float attackRange = 0.5f;
     public LayerMask enemyLayers;
@@ -27,25 +28,25 @@ public class PlayerAttack : MonoBehaviour
     {
         if(Input.GetButtonDown("Fire1") && canAttack){
             animator.SetTrigger("Attacking");
-            dashScript.canDash = false;
+            dashScript.canDash = false;//stops the player from dash cancelling
             canAttack = false;//stops player from attacking infinitely
+            attackCooldown = true;
         }
         //reset canMove by checking the state of the animation
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerSlash")){
             inAttackState = true;
         }else if(inAttackState){
             inAttackState = false;
-            
-            //moveScript.canMove = true;
         }
         //stopping the player from attacking infinitely
-        if(!canAttack){
+        if(attackCooldown){
             attackTime -= 1;
         }
         if(attackTime <= 0){
             canAttack = true;
-            dashScript.canDash = true;
+            dashScript.canDash = true;//only a problem if dashCooldown is higher than attackTime
             attackTime = attackTimeReset;   
+            attackCooldown = false;
         }
         
         //Detect Enemies in range
