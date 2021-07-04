@@ -8,7 +8,6 @@ using UnityEngine;
 
 public class HunterCaller : MonoBehaviour
 {
-    public HunterController Controller;
     public Animator Animator;
     public Rigidbody2D Rigidbody;
     public float interval;
